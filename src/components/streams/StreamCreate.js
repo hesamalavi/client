@@ -2,7 +2,10 @@ import React from 'react';
 // reduxForm is what connects us to the redux form store
 import { Field, reduxForm } from 'redux-form';
 
-// redux form we always are supposed to make sure that we show that input element in assign its value property and also give it in on change callback handler
+import { connect } from 'react-redux';
+import { createStream } from '../../actions';
+
+// redux form we always are supposed to make sure that we show that input element and assign its value property and also give it in onchange callback handler
 class StreamCreate extends React.Component {
     renderError({ touched, error }) {
         if (touched && error) {
@@ -30,9 +33,12 @@ class StreamCreate extends React.Component {
         );
     };
     // formProps does not mean that this is some data passed down by a parent component. Maybe a better name this argument here would be something like form values.
-    onSubmit(formProps) {
-        console.log(formProps);
-    }
+
+    // Now that we have our API server put together we need to make sure that any time that the user submits our form from the streamcreate component we attempt to make Ajax request or a network request over to our API running on localhost 3001. So to make a network request we're going to first define an action creator. We're going to make sure that we wire up that action creator to our component through our connect helper. We're going to call the action creator from onSubmit. And then the action creator is going to use axios to make the network request over to our API.
+
+    onSubmit = formValues => {
+        this.props.createStream(formValues);
+    };
 
     render() {
         // props from redux-form
@@ -72,7 +78,9 @@ const validate = formValues => {
     return errors;
 };
 
-export default reduxForm({
+const formWrapped = reduxForm({
     form: 'streamCreate',
     validate,
 })(StreamCreate);
+
+export default connect(null, { createStream })(formWrapped);

@@ -16,7 +16,7 @@ class GoogleAuth extends React.Component {
                     clientId:
                         '60101665480-rv31uc4bt0evvlgnscevetccmmao0lha.apps.googleusercontent.com',
                     scope: 'email',
-                    // after library has successfully been initailised .then gets invoked. We will begin by getting a reference to that auth object and saving a refence to it on the component. gapi.auth2.getAuthInstance() Returns the GoogleAuth object.
+                    // after library has successfully been initailised ".then" gets invoked. We will begin by getting a reference to that auth object and saving a refence to it on the component. gapi.auth2.getAuthInstance() Returns the GoogleAuth object.
                 })
                 // first we initialise the library, then we asign the auth instance to the this.auth, then update our auth state in the redux store, then wait for the auth status to change sometime in the future(listen)
                 .then(() => {
@@ -36,7 +36,7 @@ class GoogleAuth extends React.Component {
         // this.setState({ isSignedIn: this.auth.isSignedIn.get() }); this was component level state, now we want to setup redux so passed in isSigednIn as an argument plus:
         // if (action creator === true) then call ...
         if (isSignedIn) {
-            // To get the current users Google Id this.auth.currentUser.get().getId(). Now when we call (isSigedIn) action creator we're going to also pass on the idea of the user who has signed.So now we need to make sure that we open up our action creator as well received this ID as an argument, and pass it through to the reducer, by assigning this ID to the action object as a payload property, now we go add payload to action creator
+            // To get the current users Google Id this.auth.currentUser.get().getId(). Now when we call (isSigedIn) action creator we're going to also pass on the id of the user who has signed in.So now we need to make sure that we open up our action creator as well received this ID as an argument, and pass it through to the reducer, by assigning this ID to the action object as a payload property, now we go add payload to action creator
             this.props.signIn(this.auth.currentUser.get().getId());
         } else {
             this.props.signOut();
