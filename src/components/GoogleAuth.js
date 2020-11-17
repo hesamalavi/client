@@ -23,15 +23,16 @@ class GoogleAuth extends React.Component {
                     this.auth = window.gapi.auth2.getAuthInstance();
                     // to get the updated state so that component will rerender and print auth status on the screen. A property on .auth object (isSignedIn)
                     // this.setState({ isSignedIn: this.auth.isSignedIn.get() });
+
                     // run the below, to check the users current status
                     this.onAuthChange(this.auth.isSignedIn.get());
-                    // add event listner to see if user us signed in. onAuthChange defined below
+                    // add event listner to see if user is signed in. onAuthChange defined below
                     this.auth.isSignedIn.listen(this.onAuthChange);
                 });
         });
     }
     // create arrow function so that its instance is bound to the component. The following will be called everytime our authentication changes. It gets called by a boolean
-    onAuthChange = (isSignedIn) => {
+    onAuthChange = isSignedIn => {
         // this.setState({ isSignedIn: this.auth.isSignedIn.get() }); this was component level state, now we want to setup redux so passed in isSigednIn as an argument plus:
         // if (action creator === true) then call ...
         if (isSignedIn) {
@@ -82,7 +83,7 @@ class GoogleAuth extends React.Component {
 // __proto__ (get is in this object), also another one called listen (which will be envoked everytime users authentiation status changes)
 
 // call it with the state object, return an object. Now the value of SignedIn is going to be true, false or null
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return { isSignedIn: state.auth.isSignedIn };
 };
 
