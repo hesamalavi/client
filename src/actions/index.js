@@ -2,6 +2,9 @@ import streams from '../apis/streams';
 
 // Create 2 action creators, one signIn() and the other signOut(). We will call them once we have successfully logged in or logged out  through gapi library
 import GoogleAuth from '../components/GoogleAuth';
+
+// check history.push('/')
+import history from '../history';
 import {
     SIGN_IN,
     SIGN_OUT,
@@ -32,10 +35,14 @@ export const signOut = () => {
 // export const createStream = formValues => async dispatch => {
 //     streams.post('/streams', formValues);
 // };
-export const createStream = formValues => async dispatch => {
-    const response = await streams.post('/streams', formValues);
+
+// we can add a second argument so that we could pull out data from our state object. In this case userId from auth. Below we can pull all the values from our form along with the userId of the user who created it
+export const createStream = formValues => async (dispatch, getState) => {
+    const { userId } = getState().auth;
+    const response = await streams.post('/streams', { ...formValues, userId });
 
     dispatch({ type: CREATE_STREAM, payload: response.data });
+    history.push('/');
 };
 // use .data above because we get a response back from axios the response object has info, and in our case we only care about the data
 
