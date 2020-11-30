@@ -60,10 +60,13 @@ export const fetchStream = id => async dispatch => {
 
 // for editing we meed id and the content (formValues) that needs to be updated
 
-export const editStream = (id, formvalues) => async dispatch => {
-    const response = streams.put(`/streams/${id}`, formvalues);
+// patch vs put.
+
+export const editStream = (id, formValues) => async dispatch => {
+    const response = await streams.patch(`/streams/${id}`, formValues);
 
     dispatch({ type: EDIT_STREAM, payload: response.data });
+    history.push('/');
 };
 
 export const deleteStream = id => async dispatch => {
